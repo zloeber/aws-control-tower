@@ -1,0 +1,10 @@
+#pre-commit
+#ansible
+#ansible-core
+#ansible-cmdb
+#jinja2
+copier
+diagrams
+#https://releases.ansible.com/ansible-tower/cli/ansible-tower-cli-latest.tar.gz
+mdtoc===1.3
+boto3

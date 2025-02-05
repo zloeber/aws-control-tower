@@ -1,0 +1,312 @@
+[
+  {
+    "Account": {
+      "AccountId": "123456789012",
+      "AccountName": "LegacyProdAccount",
+      "Email": "legacyprod@example.com",
+      "OrganizationalUnit": "Production",
+      "IAMUserAccessToBilling": "DENY",
+      "RoleName": "AWSControlTowerExecution",
+      "Tags": [
+        {
+          "Key": "Environment",
+          "Value": "Production"
+        },
+        {
+          "Key": "Created",
+          "Value": "2008-05-01"
+        }
+      ],
+      "Regions": ["us-east-1", "us-west-2"],
+      "Services": [
+        {
+          "ServiceName": "Amazon EC2",
+          "ServiceStatus": "Enabled"
+        },
+        {
+          "ServiceName": "Amazon RDS",
+          "ServiceStatus": "Enabled"
+        }
+      ],
+      "VPCs": [
+        {
+          "VpcId": "vpc-0abcd1234efgh5678",
+          "CidrBlock": "10.0.0.0/16",
+          "Subnets": [
+            {
+              "SubnetId": "subnet-0123456789abcdef0",
+              "CidrBlock": "10.0.1.0/24",
+              "AvailabilityZone": "us-east-1a"
+            }
+          ]
+        }
+      ],
+      "IAMRoles": [
+        {
+          "RoleName": "AWSControlTowerExecution",
+          "Arn": "arn:aws:iam::123456789012:role/AWSControlTowerExecution",
+          "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "Service": "controltower.amazonaws.com"
+                },
+                "Action": "sts:AssumeRole"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "Account": {
+      "AccountId": "234567890123",
+      "AccountName": "DevTestAccount",
+      "Email": "devtest@example.com",
+      "OrganizationalUnit": "Development",
+      "IAMUserAccessToBilling": "ALLOW",
+      "RoleName": "AWSControlTowerExecution",
+      "Tags": [
+        {
+          "Key": "Environment",
+          "Value": "Development"
+        },
+        {
+          "Key": "Created",
+          "Value": "2010-08-15"
+        }
+      ],
+      "Regions": ["us-east-1"],
+      "Services": [
+        {
+          "ServiceName": "AWS Lambda",
+          "ServiceStatus": "Enabled"
+        },
+        {
+          "ServiceName": "Amazon S3",
+          "ServiceStatus": "Enabled"
+        }
+      ],
+      "VPCs": [
+        {
+          "VpcId": "vpc-0abcd1234efgh5679",
+          "CidrBlock": "10.1.0.0/16",
+          "Subnets": [
+            {
+              "SubnetId": "subnet-0123456789abcdef1",
+              "CidrBlock": "10.1.1.0/24",
+              "AvailabilityZone": "us-east-1b"
+            }
+          ]
+        }
+      ],
+      "IAMRoles": [
+        {
+          "RoleName": "AWSControlTowerExecution",
+          "Arn": "arn:aws:iam::234567890123:role/AWSControlTowerExecution",
+          "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "Service": "controltower.amazonaws.com"
+                },
+                "Action": "sts:AssumeRole"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "Account": {
+      "AccountId": "345678901234",
+      "AccountName": "FinanceDataAccount",
+      "Email": "financedata@example.com",
+      "OrganizationalUnit": "Finance",
+      "IAMUserAccessToBilling": "DENY",
+      "RoleName": "AWSControlTowerExecution",
+      "Tags": [
+        {
+          "Key": "Environment",
+          "Value": "Finance"
+        },
+        {
+          "Key": "Created",
+          "Value": "2012-03-22"
+        }
+      ],
+      "Regions": ["us-west-2"],
+      "Services": [
+        {
+          "ServiceName": "Amazon Redshift",
+          "ServiceStatus": "Enabled"
+        },
+        {
+          "ServiceName": "AWS Glue",
+          "ServiceStatus": "Enabled"
+        }
+      ],
+      "VPCs": [
+        {
+          "VpcId": "vpc-0abcd1234efgh5680",
+          "CidrBlock": "10.2.0.0/16",
+          "Subnets": [
+            {
+              "SubnetId": "subnet-0123456789abcdef2",
+              "CidrBlock": "10.2.1.0/24",
+              "AvailabilityZone": "us-west-2a"
+            }
+          ]
+        }
+      ],
+      "IAMRoles": [
+        {
+          "RoleName": "AWSControlTowerExecution",
+          "Arn": "arn:aws:iam::345678901234:role/AWSControlTowerExecution",
+          "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "Service": "controltower.amazonaws.com"
+                },
+                "Action": "sts:AssumeRole"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "Account": {
+      "AccountId": "456789012345",
+      "AccountName": "MarketingAnalyticsAccount",
+      "Email": "marketinganalytics@example.com",
+      "OrganizationalUnit": "Marketing",
+      "IAMUserAccessToBilling": "ALLOW",
+      "RoleName": "AWSControlTowerExecution",
+      "Tags": [
+        {
+          "Key": "Environment",
+          "Value": "Marketing"
+        },
+        {
+          "Key": "Created",
+          "Value": "2015-11-10"
+        }
+      ],
+      "Regions": ["us-east-1", "eu-west-1"],
+      "Services": [
+        {
+          "ServiceName": "Amazon QuickSight",
+          "ServiceStatus": "Enabled"
+        },
+        {
+          "ServiceName": "Amazon Athena",
+          "ServiceStatus": "Enabled"
+        }
+      ],
+      "VPCs": [
+        {
+          "VpcId": "vpc-0abcd1234efgh5681",
+          "CidrBlock": "10.3.0.0/16",
+          "Subnets": [
+            {
+              "SubnetId": "subnet-0123456789abcdef3",
+              "CidrBlock": "10.3.1.0/24",
+              "AvailabilityZone": "us-east-1c"
+            }
+          ]
+        }
+      ],
+      "IAMRoles": [
+        {
+          "RoleName": "AWSControlTowerExecution",
+          "Arn": "arn:aws:iam::456789012345:role/AWSControlTowerExecution",
+          "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "Service": "controltower.amazonaws.com"
+                },
+                "Action": "sts:AssumeRole"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "Account": {
+      "AccountId": "567890123456",
+      "AccountName": "HRManagementAccount",
+      "Email": "hrmanagement@example.com",
+      "OrganizationalUnit": "HR",
+      "IAMUserAccessToBilling": "DENY",
+      "RoleName": "AWSControlTowerExecution",
+      "Tags": [
+        {
+          "Key": "Environment",
+          "Value": "HR"
+        },
+        {
+          "Key": "Created",
+          "Value": "2018-07-30"
+        }
+      ],
+      "Regions": ["us-east-1"],
+      "Services": [
+        {
+          "ServiceName": "Amazon WorkSpaces",
+          "ServiceStatus": "Enabled"
+        },
+        {
+          "ServiceName": "Amazon S3",
+          "ServiceStatus": "Enabled"
+        }
+      ],
+      "VPCs": [
+        {
+          "VpcId": "vpc-0abcd1234efgh5682",
+          "CidrBlock": "10.4.0.0/16",
+          "Subnets": [
+            {
+              "SubnetId": "subnet-0123456789abcdef4",
+              "CidrBlock": "10.4.1.0/24",
+              "AvailabilityZone": "us-east-1d"
+            }
+          ]
+        }
+      ],
+      "IAMRoles": [
+        {
+          "RoleName": "AWSControlTowerExecution",
+          "Arn": "arn:aws:iam::567890123456:role/AWSControlTowerExecution",
+          "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "Service": "controltower.amazonaws.com"
+                },
+                "Action": "sts:AssumeRole"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+]

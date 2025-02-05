@@ -1,0 +1,15 @@
+[[env]]
+_.source = '.envrc'
+#[[env]]
+#_.source = './secrets/account_${ENV:-local}.env'
+
+[tools]
+task = 'latest'
+jq = 'latest'
+terraform = 'latest'
+powershell-core = 'latest'
+uv = 'latest'
+github-cli = "latest"
+aws-cli = "latest"
+dotnet = "latest"
+atmos = "latest"

@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://atmos.tools/schemas/atmos/atmos-manifest/1.0/atmos-manifest.json
+
+vars:
+  stage: dev
+
+import:
+  - catalog/localhost
+
+components:
+  terraform:
+    localhost:
+      vars:
+        env: "dev"
+        clusters: ["cluster1", "cluster2"]
+        secrets_path: "../../../secrets/dev"
+    cluster1:
+      vars:
+        cluster_name: "cluster1"
+        key_path: "../../../secrets/dev/"
+        kubeconfig: "../../../secrets/dev/cluster1_config"
+    cluster2:
+      vars:
+        cluster_name: "cluster2"
+        key_path: "../../../secrets/dev/"
+        kubeconfig: "../../../secrets/dev/cluster2_config"

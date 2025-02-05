@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://atmos.tools/schemas/atmos/atmos-manifest/1.0/atmos-manifest.json
+
+vars:
+  stage: prod
+
+import:
+  - catalog/baremetal
+
+components:
+  terraform:
+    baremetal:
+      backend_type: local
+      vars:
+        env: "prod"
+        clusters: ["cluster1"]
+        secrets_path: "../../../secrets/prod"

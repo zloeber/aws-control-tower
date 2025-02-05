@@ -1,0 +1,117 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+vars:
+  AGE_CONFIG_PATH: '{{ .AGE_CONFIG_PATH | default "~/.config/sops/age" }}'
+  SOPS_CONFIG_FILE: "{{.ROOT_DIR}}/.sops.yaml"
+  SECRETS_DIR: "{{.ROOT_DIR}}/secrets"
+
+tasks:
+  show:
+    desc: Show variables for this task
+    cmds:
+      - |
+        echo "AGE_CONFIG_PATH: {{.AGE_CONFIG_PATH}}"
+        echo "SOPS_AGE_KEY_FILE: {{.AGE_CONFIG_PATH}}/keys.txt"
+
+  init:
+    vars:
+      TARGET_FILE: "{{.AGE_CONFIG_PATH}}/keys.txt"
+      TEMP_FILE:
+        sh: mktemp -u
+    cmds:
+      - |
+        age-keygen -o {{.TEMP_FILE}}
+        mkdir -p {{.AGE_CONFIG_PATH}}
+        mv {{.TEMP_FILE}} {{.TARGET_FILE}}
+        chmod 400 {{.TARGET_FILE}}
+        PUBLIC_KEY=$(grep 'public key:' {{.TARGET_FILE}} | awk -F: '{print $(NR)}')
+        echo "Add 'export SOPS_AGE_KEY_FILE={{.TARGET_FILE}}' to your shell initialization script and reload"
+        echo "Don't forget to BACK IT UP!"
+    preconditions:
+      - sh: "[ ! -f {{.TARGET_FILE}} ]"
+        msg: "Sops key already exists!"
+
+  encrypt-file:
+    desc: encrypt sops file.
+    summary: |
+      Example usage: "task sops:encrypt -- file.yml"
+    cmds:
+      - sops --encrypt --in-place {{.CLI_ARGS}} || true
+
+  decrypt-file:
+    desc: decrypt sops file.
+    summary: |
+      Example usage: "task sops:decrypt -- file.yml"
+    cmds:
+      - sops --decrypt --in-place {{.CLI_ARGS}} || true
+
+  age-keygen:
+    desc: Initialize Age Key for Sops
+    cmd: age-keygen --output {{.AGE_FILE}}
+    status:
+      - test -f "{{.AGE_FILE}}"
+
+  encrypt:kube:
+    desc: Encrypt all Kubernetes SOPS secrets that are not already encrypted
+    cmds:
+      - for: { var: file }
+        task: .encrypt-file
+        vars:
+          file: "{{.ITEM}}"
+    vars:
+      file:
+        sh: |
+          if [ -d "{{.KUBERNETES_DIR}}" ]; then
+              find "{{.KUBERNETES_DIR}}" -type f -name "*.*";
+          fi
+
+  encrypt:global:
+    desc: Encrypt all global secrets
+    cmds:
+      - for: { var: file }
+        task: .encrypt-file
+        vars:
+          file: "{{.ITEM}}"
+    vars:
+      file:
+        sh: |
+          if [ -d "{{.SECRETS_DIR}}" ]; then
+              find "{{.SECRETS_DIR}}" -type f -name "*.*";
+          fi
+
+  decrypt:global:
+    desc: Decrypt all global secrets
+    cmds:
+      - for: { var: file }
+        task: .decrypt-file
+        vars:
+          file: "{{.ITEM}}"
+    vars:
+      file:
+        sh: |
+          if [ -d "{{.SECRETS_DIR}}" ]; then
+              find "{{.SECRETS_DIR}}" -type f -name "*.*";
+          fi
+
+  .decrypt-file:
+    internal: true
+    cmd: sops --decrypt --in-place {{.file}}
+    requires:
+      vars: ["file"]
+    preconditions:
+      - { msg: "Missing Sops config file", sh: "test -f {{.SOPS_CONFIG_FILE}}" }
+      - { msg: "Missing Sops Age key file", sh: "test -f {{.AGE_FILE}}" }
+
+  .encrypt-file:
+    internal: true
+    cmd: sops --encrypt --in-place {{.file}}
+    requires:
+      vars: ["file"]
+    preconditions:
+      - { msg: "Missing Sops config file", sh: "test -f {{.SOPS_CONFIG_FILE}}" }
+      - { msg: "Missing Sops Age key file", sh: "test -f {{.AGE_FILE}}" }
+
+  .reset:
+    internal: true
+    cmd: rm -rf {{.SOPS_CONFIG_FILE}}

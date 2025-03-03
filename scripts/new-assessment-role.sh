@@ -20,11 +20,40 @@ if [ ! -f "config/aws-assessment-account-policy.json" ]; then
   exit 1
 fi
 
+# Create the policy if it doesn't exist
+POLICY_EXISTS=$(aws iam list-policies --query "Policies[?PolicyName=='${ROLE_NAME}Policy'].PolicyName" --output text)
+if [[ -n $POLICY_EXISTS ]]; then
+  echo "Policy ${ROLE_NAME}Policy already exists. Continuing."
+else
+  echo "Creating policy ${ROLE_NAME}Policy."
+  aws iam create-policy --policy-name "${ROLE_NAME}Policy" --policy-document file://"$POLICY_DOCUMENT"
+fi
+
 # Check if the role already exists and create it if not
 ROLE_EXISTS=$(aws iam get-role --role-name "$ROLE_NAME" 2>&1)
 if [[ $ROLE_EXISTS == *"NoSuchEntity"* ]]; then
   echo "Role $ROLE_NAME does not exist. Proceeding to create it."
-  aws iam create-role --role-name "$ROLE_NAME" --assume-role-policy-document file://"$POLICY_DOCUMENT"
+
+  ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+  ASSUME_ROLE_POLICY_DOCUMENT=$(
+    cat <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::$ACCOUNT_ID:root"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ],
+  "Policy": "${ROLE_NAME}Policy"
+}
+EOF
+  )
+  echo "Creating role $ROLE_NAME with assume role policy."
+  aws iam create-role --role-name "$ROLE_NAME" --assume-role-policy-document "$ASSUME_ROLE_POLICY_DOCUMENT"
 else
   echo "Role $ROLE_NAME already exists. Continuing."
 fi

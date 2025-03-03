@@ -109,7 +109,7 @@
 
 ## Next Steps
 
-After gathering this information, you can:
+After gathering this information, we can:
 
 - Map out the current AWS environment and identify gaps.
 - Define a phased approach for Control Tower deployment (e.g., pilot, rollout, optimization).

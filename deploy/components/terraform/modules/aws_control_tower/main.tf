@@ -25,16 +25,7 @@ resource "aws_organizations_account" "workload_account" {
   parent_id = aws_organizations_organizational_unit.workloads_ou.id
 }
 
-
-resource "aws_controltower_control" "deployment" {
-  control_identifier = "arn:aws:controltower:${data.aws_region.current.name}::control/AWS-GR_EC2_VOLUME_INUSE_CHECK"
-  target_identifier = [
-    for x in data.aws_organizations_organizational_units.example.children :
-    x.arn if x.name == "Infrastructure"
-  ][0]
-
-  parameters {
-    key   = "AllowedRegions"
-    value = jsonencode(["us-east-1"])
-  }
+resource "aws_controltower_landing_zone" "deployment" {
+  manifest_json = file("${path.module}/LandingZoneManifest.json")
+  version       = "3.3"
 }

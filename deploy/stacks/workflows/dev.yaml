@@ -1,0 +1,20 @@
+name: dev
+description: Bring up and configure stacks for AWS control tower
+workflows:
+  up:
+    description: |
+      Bring up tower
+    steps:
+      - command: terraform apply aws_control_tower
+
+  down:
+    description: |
+      Tear it all down
+    steps:
+      - command: terraform destroy aws_control_tower -auto-approve
+
+  clean:
+    description: |
+      Clean your deployment
+    steps:
+      - command: terraform clean aws_control_tower

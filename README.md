@@ -13,6 +13,12 @@ cd aws-control-tower
 
 # Configure
 
-`./configure.sh`
+```bash
+# In AWS CloudShell
+./scripts/setup-aws-cloudshell.sh
 
-If you are lucky that will mostly work be aware that mise in your shell by default is highly recommended.
+# Then
+./configure.sh
+```
+
+Be aware that this updates your cloudshell to zsh and will prompt you to configure the prompt when you restart cloudshell again (or manually just hop into zsh using the cli)

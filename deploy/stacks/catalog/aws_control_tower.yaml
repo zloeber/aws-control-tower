@@ -1,0 +1,12 @@
+components:
+  terraform:
+    aws_control_tower:
+      metadata:
+        component: "aws_control_tower"
+    # cluster2:
+    #   metadata:
+    #     component: cluster2
+    #   settings:
+    #     depends_on:
+    #       1:
+    #         component: "localhost"
